@@ -113,7 +113,7 @@ function updateSecurityCode(code) {
 }
 
 cardNumberMasked.on("accept", () => {
-  const cardType = cardNumberMasked.masked.currentMask.cardtype;
+  const cardType = cardNumberMasked.masked.currentMask.cardType;
   setCardType(cardType);
   updateCardNumber(cardNumberMasked.value);
 });
