@@ -14,7 +14,7 @@ function setCardType(type) {
     visa: ["#436D99", "#2D57F2"],
     mastercard: ["#DF6F29", "#C69347"],
     elo: ["#F2DC10", "#00A4E0"],
-    americanExpress: ["#FFFFFF", "#0077A6"],
+    amex: ["#FFFFFF", "#0077A6"],
     default: ["black", "gray"],
   };
   ccBgColor01.setAttribute("fill", colors[type][0]);
@@ -64,7 +64,7 @@ const cardNumberPattern = {
     {
       mask: "0000 0000 0000 0000",
       regex: /(^5[1-5]\d{0,2}|^22[2-9]\d|^2[3-7]\d{0,2})\d{0,12}/,
-      cardtype: "mastecard",
+      cardtype: "mastercard",
     },
     {
       mask: "0000 0000 0000 000",
@@ -88,7 +88,20 @@ const cardNumberMasked = IMask(cardNumber, cardNumberPattern);
 
 const addButton = document.querySelector("#add-card");
 addButton.addEventListener("click", () => {
-  console.log("Opa, você clicou no botão!");
+  if (
+    (cardNumberMasked.value === "") |
+    (securityCodeMasked.value === "") |
+    (expirationDateMasked.value === "") |
+    (cardHolder.value === "")
+  ) {
+    alert("Preencha todos os valores do cartão.");
+  } else {
+    alert("Cartão Adicionado com Sucesso!");
+    cardNumberMasked.value = "";
+    securityCodeMasked.value = "";
+    expirationDateMasked.value = "";
+    cardHolder.value = "";
+  }
 });
 
 document.querySelector("form").addEventListener("submit", (event) => {
@@ -113,7 +126,7 @@ function updateSecurityCode(code) {
 }
 
 cardNumberMasked.on("accept", () => {
-  const cardType = cardNumberMasked.masked.currentMask.cardType;
+  const cardType = cardNumberMasked.masked.currentMask.cardtype;
   setCardType(cardType);
   updateCardNumber(cardNumberMasked.value);
 });
